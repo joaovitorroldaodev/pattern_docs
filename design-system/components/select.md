@@ -66,11 +66,50 @@ Herda o mesmo conjunto do `Input` (`default` / `error` / `success` / `disabled`)
 
 ---
 
+## Movimento
+
+O painel de opções é um dropdown — se enquadra no Pilar 9 (`principles.md`): movimento existe só como resposta direta a abrir/fechar, nunca como decoração.
+
+| Ação          | Duração                 | Easing                               |
+| ------------- | ----------------------- | ------------------------------------ |
+| Abrir painel  | `duration-fast` (150ms) | `easing-out` — desacelera na chegada |
+| Fechar painel | `duration-fast` (150ms) | `easing-in` — acelera na saída       |
+
+Transição aplicada em `opacity` + leve `translateY` (4px) no painel — não anima o trigger nem o restante da página. Não usa `overlay-scrim` (esse token é reservado para overlays que bloqueiam a tela inteira, como Modal; o painel do Select não bloqueia interação com o resto da UI).
+
+Respeita `prefers-reduced-motion: reduce` — duração reduzida a praticamente zero, o painel aparece/some sem transição.
+
+---
+
 ## Tokens usados
 
-Mesmos do `Input` (`border-strong` · `border-subtle` · `surface-1` · `bg-accent` · `bg-danger` · `bg-success` · `fill-disabled` · `text-muted` · `text-primary` · `size-sm/md/lg` · `radius-sm/md` · `border-width` · `space-2/3`), mais:
+Herda o mesmo trigger visual do `Input`, então compartilha os tokens dele:
 
-`shadow-overlay` (painel flutuante) · `radius-lg` (cantos do painel, ligeiramente maior que o trigger)
+| Token           | Uso                                                                 |
+| --------------- | ------------------------------------------------------------------- |
+| `border-strong` | borda do trigger no estado `default`                                |
+| `border-subtle` | borda do trigger quando `disabled`                                  |
+| `surface-1`     | fundo do trigger e do painel de opções                              |
+| `bg-accent`     | borda de foco do trigger (2px) quando aberto                        |
+| `bg-danger`     | borda do trigger em `state="error"`                                 |
+| `bg-success`    | borda do trigger em `state="success"`                               |
+| `fill-disabled` | fundo do trigger quando `disabled`                                  |
+| `text-muted`    | texto do trigger quando `disabled`, texto de opção `disabled`       |
+| `text-primary`  | valor selecionado exibido no trigger                                |
+| `size-sm/md/lg` | altura, padding horizontal e font-size do trigger por `size`        |
+| `radius-sm/md`  | radius do trigger: `sm` usa `radius-sm`, `md`/`lg` usam `radius-md` |
+| `border-width`  | espessura da borda do trigger (0.5px, fixo do sistema)              |
+| `space-2/3`     | gap interno e padding do trigger em `size="sm"`                     |
+
+Exclusivos do painel de opções (dropdown):
+
+| Token            | Uso                                                             |
+| ---------------- | --------------------------------------------------------------- |
+| `shadow-overlay` | elevação do painel flutuante sobre o conteúdo                   |
+| `radius-lg`      | cantos do painel — ligeiramente maior que o `radius` do trigger |
+| `duration-fast`  | duração da transição de abrir/fechar o painel                   |
+| `easing-out`     | curva de entrada do painel (desacelera)                         |
+| `easing-in`      | curva de saída do painel (acelera)                              |
 
 ---
 
@@ -227,6 +266,24 @@ export function Select({
   padding: var(--space-1);
   max-height: 280px;
   overflow-y: auto;
+
+  opacity: 0;
+  transform: translateY(-4px);
+  transition:
+    opacity var(--duration-fast) var(--easing-in),
+    transform var(--duration-fast) var(--easing-in);
+}
+
+.select__panel[data-open="true"] {
+  opacity: 1;
+  transform: translateY(0);
+  transition-timing-function: var(--easing-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .select__panel {
+    transition-duration: 0.01ms;
+  }
 }
 
 .select__option {

@@ -67,7 +67,14 @@ Badge é majoritariamente estático. Os únicos estados aplicáveis:
 
 ## Tokens usados
 
-`border-subtle` · `text-secondary` · `bg-accent` · `bg-danger` · `bg-success` · `text-xs` · `space-2/3` · `radius-full`
+| Token                                    | Uso                                                                     |
+| ---------------------------------------- | ----------------------------------------------------------------------- |
+| `border-subtle`                          | fundo do `variant="neutral"`                                            |
+| `text-secondary`                         | texto do `variant="neutral"`                                            |
+| `bg-accent` / `bg-danger` / `bg-success` | cor-base do fundo (12% de opacidade) e do texto nas variantes coloridas |
+| `text-xs`                                | tamanho de fonte, único em todos os `size`                              |
+| `space-2/3`                              | padding horizontal: `space-2` no `sm`, `space-3` no `md`                |
+| `radius-full`                            | radius fixo (pílula), exceção intencional à escala padrão do sistema    |
 
 ---
 

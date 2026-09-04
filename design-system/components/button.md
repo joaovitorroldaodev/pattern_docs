@@ -78,7 +78,21 @@ Consomem diretamente `size-sm` / `size-md` / `size-lg` do `tokens.md`.
 
 ## Tokens usados
 
-`text-primary` · `surface-2` · `text-secondary` · `border-strong` · `bg-danger` · `text-danger` · `bg-accent` · `text-accent` · `fill-disabled` · `text-muted` · `size-sm/md/lg` · `radius-sm/md` · `border-width` · `font-weight-medium` · `space-2`
+| Token                       | Uso                                                                             |
+| --------------------------- | ------------------------------------------------------------------------------- |
+| `text-primary`              | fundo do `primary`, texto do `secondary`/`ghost`                                |
+| `surface-2`                 | texto sobre o `primary` (fundo invertido)                                       |
+| `text-secondary`            | texto do `ghost`                                                                |
+| `border-strong`             | borda do `secondary`                                                            |
+| `bg-danger` / `text-danger` | fundo e texto do `danger`                                                       |
+| `bg-accent` / `text-accent` | fundo e texto do `accent`, e o anel de foco (`bg-accent`) em todas as variantes |
+| `fill-disabled`             | fundo quando `disabled`                                                         |
+| `text-muted`                | texto quando `disabled`                                                         |
+| `size-sm/md/lg`             | altura, padding horizontal e font-size por `size`                               |
+| `radius-sm/md`              | radius: `sm` usa `radius-sm`, `md`/`lg` usam `radius-md`                        |
+| `border-width`              | espessura da borda do `secondary` (0.5px, fixo do sistema)                      |
+| `font-weight-medium`        | peso do label em todas as variantes                                             |
+| `space-2`                   | gap entre ícone e label                                                         |
 
 ---
 
