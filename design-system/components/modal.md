@@ -2,7 +2,7 @@
 
 Diálogo modal sobre um overlay que bloqueia interação com o resto da tela — usado para confirmações, formulários curtos e fluxos que exigem decisão antes de continuar.
 
-> **Gap em `tokens.md`**: não existe token semântico para o scrim (fundo escurecido atrás do modal). Proponho adicionar `overlay-scrim` à seção "Semânticos — superfície e texto" de `tokens.md`, default `rgba(13, 13, 13, 0.5)` (derivado de `neutral-950` a 50% de opacidade). É uma adição, não quebra o contrato de estabilidade (regra 3 de `tokens.md`: novos tokens podem ser adicionados livremente). Usado aqui e reservado para outros componentes de overlay futuros (ex: Drawer).
+> `overlay-scrim` entra em `tokens.md`, seção "Semânticos — superfície e texto", default `rgba(13, 13, 13, 0.5)` (derivado de `neutral-950` a 50% de opacidade). É uma adição, não quebra o contrato de estabilidade (regra 3 de `tokens.md`: novos tokens podem ser adicionados livremente). Reservado para outros componentes de overlay futuros (ex: Drawer).
 
 ---
 
@@ -66,7 +66,7 @@ Modal não adota o vocabulário `state` (`default`/`error`/`success`) do princí
 
 ## Movimento
 
-> Seção fora do template original de `principles.md` — proposta de extensão. Ver nota de estabilidade abaixo.
+> Movimento passa a ser categoria própria em `tokens.md`, e a seção "Movimento" abaixo passa a ser opcional no template fixo (entre Estados e Tokens usados), reservada a componentes de overlay.
 
 Transição dispara em resposta direta à ação do usuário (abrir/fechar), não é decoração ambiente — por isso é apropriada mesmo num sistema que evita movimento gratuito.
 
@@ -88,7 +88,7 @@ Regras:
 
 | Token            | Uso                                                                                              |
 | ---------------- | ------------------------------------------------------------------------------------------------ |
-| `overlay-scrim`  | fundo do overlay (proposta de adição — ver nota acima)                                           |
+| `overlay-scrim`  | fundo do overlay (confirmado — ver nota no topo do documento)                                    |
 | `surface-1`      | fundo do `Modal.Container`                                                                       |
 | `shadow-overlay` | elevação do Container sobre o scrim — uso legítimo do token, reservado exatamente para este caso |
 | `radius-lg`      | radius do Container — modal é "container maior" por definição em `tokens.md`                     |
@@ -97,10 +97,10 @@ Regras:
 | `text-secondary` | corpo do `Modal.Body`                                                                            |
 | `space-6`        | padding interno do Container, fixo em todos os `size`                                            |
 | `space-4`        | gap entre Header/Body/Footer                                                                     |
-| `duration-fast`  | transição do Overlay (proposta de adição — ver nota de Movimento)                                |
-| `duration-base`  | transição do Container (proposta de adição)                                                      |
-| `easing-out`     | curva de entrada — desacelera (proposta de adição)                                               |
-| `easing-in`      | curva de saída — acelera (proposta de adição)                                                    |
+| `duration-fast`  | transição do Overlay (confirmado — categoria "Movimento" em `tokens.md`)                         |
+| `duration-base`  | transição do Container (confirmado)                                                              |
+| `easing-out`     | curva de entrada — desacelera (confirmado)                                                       |
+| `easing-in`      | curva de saída — acelera (confirmado)                                                            |
 
 Container **não** tem `border` externa — a combinação `shadow-overlay` + contraste contra o `overlay-scrim` já é suficiente para separar o modal do restante da tela; adicionar borda seria redundante com o princípio de conter decoração ao mínimo necessário.
 
@@ -163,6 +163,6 @@ Segue as regras gerais de `principles.md`. Específico deste componente:
 1. `size` é o único vocabulário público de variação visual — não renomear `sm`/`md`/`lg`, e novo valor (ex: `full` para modal fullscreen mobile) só deve ser adicionado se justificado por um caso de uso real, não especulativamente.
 2. `open`/`onClose` são o contrato de controle — Modal nunca deve ganhar estado interno de visibilidade em versão futura; isso quebraria todo consumidor que depende do padrão controlado.
 3. A ausência de `variant` é uma decisão deliberada (ver Variantes/Tamanhos) — antes de adicionar uma, revisar se o caso não é na verdade um componente novo (Drawer, AlertDialog).
-4. Se `overlay-scrim` for aprovado e adicionado a `tokens.md`, isso deve constar no changelog do design system como um todo, não só na doc do Modal — é um token compartilhável por outros overlays.
-5. `duration-fast`/`duration-base`/`easing-out`/`easing-in` são a mesma proposta: tokens compartilháveis por qualquer overlay futuro (Popover, Dropdown, Toast), não exclusivos do Modal — devem entrar em `tokens.md` como categoria própria ("Movimento"), não como valores hardcoded na doc deste componente.
-6. A seção "Movimento" não existe no template fixo de `principles.md` (Anatomia → Props → Variantes/Tamanhos → Estados → Tokens usados → Acessibilidade → Exemplo de código → Estabilidade). Proponho adicioná-la como seção **opcional**, entre Estados e Tokens usados, só para componentes de overlay (Modal, e futuramente Popover/Dropdown/Toast) — Card, Button e Input não precisam dela. Pendente de você aprovar a mudança no template antes de eu considerar isso definitivo.
+4. `overlay-scrim` — entra no changelog do design system como um todo, não só na doc do Modal: é um token compartilhável por outros overlays.
+5. `duration-fast`/`duration-base`/`easing-out`/`easing-in` — entram em `tokens.md` como categoria própria ("Movimento"), compartilhável por qualquer overlay futuro (Popover, Dropdown, Toast), não exclusivos do Modal.
+6. Seção "Movimento" do template — passa a existir como seção opcional em `principles.md`, entre Estados e Tokens usados, só para componentes de overlay. Card, Button e Input não a usam.

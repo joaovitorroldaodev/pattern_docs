@@ -44,6 +44,12 @@ Em qualquer conjunto de ações (botões, opções), deve haver no máximo **uma
 
 Todo componente interativo deve: usar elemento semântico correto, manter `focus-visible` visível (nunca `outline: none` sem substituto), ter contraste mínimo AA, e funcionar via teclado sem depender de mouse. Isso está documentado por componente, não só aqui — mas é um princípio, não um adendo.
 
+### 9. Movimento é funcional, não decorativo
+
+Transição existe só como resposta direta a uma ação do usuário (abrir, fechar, expandir) — nunca como animação ambiente, hover chamativo ou decoração de entrada em cascata. Reservado a componentes de overlay (modal, popover, dropdown, toast); componentes estáticos não precisam de tokens de movimento além de `focus-visible`/`hover` instantâneos.
+
+Convenção fixa, não escolhida caso a caso: entrada desacelera (`easing-out`), saída acelera (`easing-in`) — ver categoria "Movimento" em `tokens.md`. `prefers-reduced-motion: reduce` deve sempre reduzir a duração a praticamente zero; isso decorre diretamente do pilar 8 e não é opcional.
+
 ---
 
 ## Regras de estabilidade entre versões
@@ -68,7 +74,9 @@ design-system/
 │   ├── button.md
 │   ├── input.md
 │   ├── select.md
+│   ├── card.md
+│   ├── modal.md
 │   └── ...
 ```
 
-Cada arquivo em `components/` segue o mesmo template fixo: Anatomia → Props → Variantes/Tamanhos → Estados → Tokens usados → Acessibilidade → Exemplo de código → Estabilidade entre versões. O template existe para que os arquivos sirvam tanto como referência de leitura quanto como input estruturado para geração de código por IA.
+Cada arquivo em `components/` segue o mesmo template fixo: Anatomia → Props → Variantes/Tamanhos → Estados → **Movimento** (opcional — só componentes de overlay: modal, popover, dropdown, toast) → Tokens usados → Acessibilidade → Exemplo de código → Estabilidade entre versões. O template existe para que os arquivos sirvam tanto como referência de leitura quanto como input estruturado para geração de código por IA.

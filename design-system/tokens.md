@@ -29,15 +29,16 @@ Estes existem só como base default. Um projeto pode ignorar essa escala inteira
 
 ### Semânticos — superfície e texto
 
-| Token            | Default (mapeia para) | Uso                                          |
-| ---------------- | --------------------- | -------------------------------------------- |
-| `surface-1`      | `neutral-0`           | fundo base da aplicação                      |
-| `surface-2`      | `neutral-950`         | fundo invertido (ex: texto de botão primary) |
-| `text-primary`   | `neutral-950`         | texto/ação de maior ênfase                   |
-| `text-secondary` | `neutral-700`         | texto de apoio, botão secondary              |
-| `text-muted`     | `neutral-500`         | texto desabilitado, placeholder              |
-| `border-strong`  | `neutral-300`         | bordas visíveis (botão secondary, input)     |
-| `border-subtle`  | `neutral-200`         | divisores, bordas discretas                  |
+| Token            | Default (mapeia para)                                      | Uso                                                                          |
+| ---------------- | ---------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `surface-1`      | `neutral-0`                                                | fundo base da aplicação                                                      |
+| `surface-2`      | `neutral-950`                                              | fundo invertido (ex: texto de botão primary)                                 |
+| `overlay-scrim`  | `rgba(13, 13, 13, 0.5)` (`neutral-950` a 50% de opacidade) | fundo escurecido atrás de elementos de overlay (modal, e futuramente drawer) |
+| `text-primary`   | `neutral-950`                                              | texto/ação de maior ênfase                                                   |
+| `text-secondary` | `neutral-700`                                              | texto de apoio, botão secondary                                              |
+| `text-muted`     | `neutral-500`                                              | texto desabilitado, placeholder                                              |
+| `border-strong`  | `neutral-300`                                              | bordas visíveis (botão secondary, input)                                     |
+| `border-subtle`  | `neutral-200`                                              | divisores, bordas discretas                                                  |
 
 ### Semânticos — ação e feedback
 
@@ -146,6 +147,23 @@ Sistema intencionalmente **sem sombra decorativa** por padrão — profundidade 
 
 ---
 
+## Movimento
+
+Transições existem só como resposta direta a uma ação do usuário (abrir, fechar, expandir) — nunca como animação ambiente ou decoração contínua. Reservado a componentes de overlay (modal, e futuramente popover, dropdown, toast); componentes estáticos (Card, Button, Input) não têm tokens de movimento próprios além de `focus-visible`/`hover` instantâneos.
+
+| Token           | Valor                        | Uso                                            |
+| --------------- | ---------------------------- | ---------------------------------------------- |
+| `duration-fast` | `150ms`                      | transições de elementos finos (overlay/scrim)  |
+| `duration-base` | `200ms`                      | transição padrão de container (modal, popover) |
+| `easing-out`    | `cubic-bezier(0, 0, 0.2, 1)` | curva de **entrada** — desacelera              |
+| `easing-in`     | `cubic-bezier(0.4, 0, 1, 1)` | curva de **saída** — acelera                   |
+
+Convenção fixa: entrada sempre usa `easing-out` (chega "suave"), saída sempre usa `easing-in` (sai "rápido") — é o padrão consagrado para diálogos e não deve ser invertido componente a componente.
+
+Todo componente que usa estes tokens deve respeitar `prefers-reduced-motion: reduce` reduzindo a duração a praticamente zero — não é opcional, decorre do princípio de acessibilidade (ver `principles.md`).
+
+---
+
 ## Estabilidade entre versões
 
 Regras para manter esse arquivo estável conforme o sistema evolui:
@@ -153,3 +171,12 @@ Regras para manter esse arquivo estável conforme o sistema evolui:
 1. **Nunca renomear um token existente** — só adicionar novos ou depreciar (marcar como `@deprecated` no comentário, manter funcional por pelo menos uma versão major).
 2. **Nunca remover um token sem deprecar primeiro.**
 3. Mudança de _valor_ default (ex: ajustar `radius-md` de `8px` para `10px`) é aceitável, mas deve ser documentada em changelog — o nome do token é o contrato, não o valor.
+
+---
+
+## Changelog
+
+| Data       | Mudança                                                                                                                                                               |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-09-04 | Adicionado `overlay-scrim` (seção Semânticos — superfície e texto), a pedido do componente Modal.                                                                     |
+| 2026-09-04 | Adicionada categoria **Movimento** (`duration-fast`, `duration-base`, `easing-out`, `easing-in`), a pedido do componente Modal — compartilhável por futuros overlays. |
